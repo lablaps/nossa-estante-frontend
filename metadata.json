@@ -1,0 +1,8 @@
+{
+  "name": "Nossa Estante - Circular Library",
+  "description": "A book exchange platform focused on sustainability and community, allowing users to trade books using a credit system.",
+  "requestFramePermissions": [
+    "camera",
+    "geolocation"
+  ]
+}
