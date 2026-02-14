@@ -1,128 +1,136 @@
 
 import React, { useState } from 'react';
 import { dbService } from '../services/dbService';
+import { authService } from '../services/authService';
 import { Link } from 'react-router-dom';
 import Layout from '../components/Layout';
 import ReferenceButtons from '../components/ReferenceButtons';
 
 const Home: React.FC = () => {
+  const user = authService.getCurrentUser();
   const books = dbService.getBooks();
-  const [activeBook, setActiveBook] = useState(books[0]);
+
+  // Mock Activity Data
+  const activities = [
+    { id: 1, user: 'Ana', action: 'exchanged a book with', target: 'Miguel', time: '15 minutes ago', icon: 'swap_horiz', color: 'bg-green-100 text-green-700' },
+    { id: 2, user: 'Lucas', action: 'added 3 new books', target: '', time: '1 hour ago', icon: 'add', color: 'bg-blue-100 text-blue-700' },
+    { id: 3, user: 'Sarah', action: 'reviewed', target: 'Dune', time: '2 hours ago', icon: 'star', color: 'bg-yellow-100 text-yellow-700' },
+  ];
 
   return (
     <Layout>
       <ReferenceButtons pngUrl="https://picsum.photos/400/800" />
-      
-      <div className="flex flex-col md:flex-row h-full md:h-screen bg-background-light dark:bg-background-dark overflow-hidden">
-        
-        {/* Lado Esquerdo: Painel Desktop / Header Mobile */}
-        <div className="w-full md:w-[400px] flex flex-col h-full bg-white dark:bg-surface-dark border-r border-black/5 dark:border-white/5 z-10 shrink-0">
-          <header className="p-6 space-y-6">
-            <div className="flex items-center justify-between md:hidden">
-               <h1 className="text-2xl font-extrabold tracking-tight dark:text-white">Nossa Estante</h1>
-               <span className="material-symbols-outlined text-primary text-3xl filled">account_circle</span>
-            </div>
 
-            <div className="space-y-1">
-              <h1 className="hidden md:block text-2xl font-black dark:text-white tracking-tight">Explore a Comunidade</h1>
-              <p className="text-sm text-text-muted font-medium">Encontre sua próxima leitura por perto.</p>
+      <div className="min-h-screen bg-[#F8FAF9] dark:bg-background-dark pb-32">
+        {/* Header Section */}
+        <header className="px-6 pt-8 pb-4 space-y-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <img src={user?.avatar || 'https://picsum.photos/seed/user/200'} className="size-10 rounded-full object-cover border-2 border-white shadow-sm" alt="User" />
+              <div>
+                <p className="text-xs font-bold text-text-muted">Welcome back,</p>
+                <p className="text-sm font-black dark:text-white">{user?.name || 'Reader'}</p>
+              </div>
             </div>
+            <div className="bg-primary/10 px-3 py-1.5 rounded-full flex items-center gap-2">
+              <span className="material-symbols-outlined text-primary text-sm filled">token</span>
+              <span className="text-xs font-black text-primary">{user?.credits || 0} Credits</span>
+            </div>
+          </div>
 
-            <div className="relative group">
-              <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-text-muted group-focus-within:text-primary transition-colors">search</span>
-              <input 
-                type="text" 
-                placeholder="Título, autor ou ISBN..."
-                className="w-full pl-12 pr-4 py-4 rounded-2xl border-0 ring-1 ring-black/5 dark:ring-white/10 bg-background-light dark:bg-background-dark focus:ring-2 focus:ring-primary shadow-sm text-sm font-medium transition-all"
+          <div className="flex items-center justify-between">
+            <h1 className="text-3xl font-black tracking-tight dark:text-white">Nossa Estante</h1>
+            <button className="relative p-2">
+              <span className="material-symbols-outlined text-text-main dark:text-white">notifications</span>
+              <span className="absolute top-2 right-2 size-2 bg-red-500 rounded-full border border-white"></span>
+            </button>
+          </div>
+
+          {/* Search Bar */}
+          <div className="flex gap-3">
+            <div className="flex-1 relative">
+              <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-text-muted">search</span>
+              <input
+                type="text"
+                placeholder="Search books, authors, or genres"
+                className="w-full pl-12 pr-4 py-3.5 rounded-2xl border-0 bg-white dark:bg-surface-dark shadow-sm text-sm font-medium focus:ring-2 focus:ring-primary placeholder:text-black/30"
               />
             </div>
+            <button className="bg-white dark:bg-surface-dark p-3.5 rounded-2xl shadow-sm border border-black/5 dark:border-white/5 text-text-muted">
+              <span className="material-symbols-outlined">tune</span>
+            </button>
+          </div>
 
-            <div className="flex gap-2 overflow-x-auto no-scrollbar py-1">
-              {['Distância', 'Ficção', 'História', 'Autoajuda'].map((cat, i) => (
-                <button key={i} className={`px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all border ${i === 0 ? 'bg-primary border-primary text-black' : 'bg-white dark:bg-background-dark border-black/5 dark:border-white/10 text-text-muted'}`}>
-                  {cat}
-                </button>
-              ))}
-            </div>
-          </header>
-
-          <div className="flex-1 overflow-y-auto px-6 pb-20 md:pb-6 space-y-4 no-scrollbar">
-            <div className="flex items-center justify-between mb-2">
-              <h2 className="text-sm font-extrabold uppercase tracking-widest text-text-muted">Disponíveis Agora</h2>
-              <span className="text-xs font-bold text-primary">{books.length} Livros</span>
-            </div>
-            
-            {books.map(book => (
-              <Link 
-                key={book.id} 
-                to={`/livro/${book.id}`}
-                onMouseEnter={() => setActiveBook(book)}
-                className={`flex gap-4 p-3 rounded-2xl border transition-all group ${activeBook?.id === book.id ? 'bg-primary/5 border-primary shadow-sm' : 'bg-white dark:bg-background-dark border-black/5 dark:border-white/10 hover:border-black/10'}`}
+          {/* Categories */}
+          <div className="flex gap-2 overflow-x-auto no-scrollbar pt-2">
+            {['Near me', 'Fiction', 'Biographies', 'Sci-Fi', 'Romance', 'Mystery'].map((cat, i) => (
+              <button
+                key={i}
+                className={`px-5 py-2.5 rounded-full text-xs font-bold whitespace-nowrap transition-all ${i === 0
+                  ? 'bg-primary text-black shadow-lg shadow-primary/25'
+                  : 'bg-white dark:bg-surface-dark text-text-muted border border-black/5 dark:border-white/5'
+                  }`}
               >
-                <div className="size-20 rounded-xl overflow-hidden shrink-0 shadow-sm">
-                  <img src={book.photos[0]} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="" />
-                </div>
-                <div className="flex-1 min-w-0 py-1">
-                  <h3 className="font-bold text-sm truncate dark:text-white group-hover:text-primary transition-colors">{book.title}</h3>
-                  <p className="text-xs text-text-muted truncate mb-2">{book.author}</p>
-                  <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-black px-2 py-0.5 bg-black/5 dark:bg-white/5 rounded-full text-text-muted">{book.distance}</span>
-                    <div className="flex items-center gap-1">
-                      <span className="material-symbols-outlined text-primary text-sm filled">token</span>
-                      <span className="text-xs font-black dark:text-white">{book.creditsCost}</span>
-                    </div>
+                {cat}
+              </button>
+            ))}
+          </div>
+        </header>
+
+        {/* Map Section */}
+
+
+        {/* Books Near You */}
+        <section className="pt-6 space-y-4">
+          <div className="px-6 flex items-center justify-between">
+            <h2 className="text-lg font-black dark:text-white flex items-center gap-2">
+              Books Near You
+              <span className="material-symbols-outlined text-primary text-sm filled">location_on</span>
+            </h2>
+            <Link to="/explore" className="text-xs font-bold text-text-muted hover:text-primary">View All on Map</Link>
+          </div>
+
+          <div className="flex gap-4 overflow-x-auto no-scrollbar px-6 pb-4">
+            {books.map((book) => (
+              <Link to={`/livro/${book.id}`} key={book.id} className="min-w-[140px] group">
+                <div className="relative aspect-[2/3] rounded-2xl overflow-hidden shadow-lg mb-3 bg-gray-100">
+                  <img src={book.photos[0]} className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500" alt={book.title} />
+                  <div className="absolute top-2 right-2 bg-black/60 backdrop-blur-sm px-2 py-0.5 rounded-lg">
+                    <span className="text-[10px] font-bold text-white">{book.distance}</span>
                   </div>
+                </div>
+                <h3 className="font-bold text-sm truncate dark:text-white">{book.title}</h3>
+                <p className="text-[10px] text-text-muted truncate mb-1">{book.author}</p>
+                <div className="flex items-center gap-1">
+                  <span className="material-symbols-outlined text-green-500 text-[14px] filled">token</span>
+                  <span className="text-xs font-black dark:text-white">{book.creditsCost} Credits</span>
                 </div>
               </Link>
             ))}
           </div>
-        </div>
+        </section>
 
-        {/* Lado Direito: Mapa */}
-        <div className="flex-1 relative bg-gray-100 dark:bg-background-dark overflow-hidden order-first md:order-last h-[300px] md:h-full">
-          <div className="absolute inset-0 bg-[#E5E3DF] dark:bg-[#1B2721]">
-            <img 
-              src="https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=2000" 
-              className="w-full h-full object-cover opacity-20 dark:opacity-10 mix-blend-multiply dark:mix-blend-overlay grayscale" 
-              alt="" 
-            />
-          </div>
-
-          {books.map((book, i) => (
-            <button 
-              key={book.id}
-              className={`absolute transition-all duration-500 hover:scale-110 z-10 ${activeBook?.id === book.id ? 'scale-125 z-20' : 'opacity-80'}`}
-              style={{ 
-                left: `${20 + (i * 15) + (i % 2 === 0 ? 5 : -5)}%`, 
-                top: `${30 + (i * 10) + (i % 3 === 0 ? 10 : -10)}%` 
-              }}
-              onClick={() => setActiveBook(book)}
-            >
-              <div className="relative group">
-                <div className={`size-12 rounded-2xl border-4 border-white dark:border-surface-dark shadow-2xl overflow-hidden transition-all ${activeBook?.id === book.id ? 'ring-4 ring-primary' : ''}`}>
-                  <img src={book.photos[0]} className="w-full h-full object-cover" alt="" />
+        {/* Community Activity */}
+        <section className="px-6 pt-4 space-y-4">
+          <h2 className="text-lg font-black dark:text-white">Community Activity</h2>
+          <div className="space-y-3">
+            {activities.map((item) => (
+              <div key={item.id} className="bg-white dark:bg-surface-dark p-4 rounded-3xl shadow-sm border border-black/5 dark:border-white/5 flex items-center gap-4">
+                <div className={`size-10 rounded-full flex items-center justify-center shrink-0 ${item.color}`}>
+                  <span className="material-symbols-outlined text-lg">{item.icon}</span>
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm dark:text-white truncate">
+                    <span className="font-bold">{item.user}</span> {item.action} <span className="font-bold">{item.target}</span>
+                  </p>
+                  <p className="text-[10px] text-text-muted font-bold flex items-center gap-1">
+                    {item.time} • Nearby
+                  </p>
                 </div>
               </div>
-            </button>
-          ))}
-
-          {/* Controles do Mapa */}
-          <div className="absolute right-6 top-6 flex flex-col gap-2">
-            <button className="size-12 bg-white dark:bg-surface-dark rounded-2xl shadow-xl flex items-center justify-center"><span className="material-symbols-outlined">add</span></button>
-            <button className="size-12 bg-white dark:bg-surface-dark rounded-2xl shadow-xl flex items-center justify-center"><span className="material-symbols-outlined">remove</span></button>
+            ))}
           </div>
-
-          {activeBook && (
-            <div className="md:hidden absolute bottom-4 left-4 right-4 bg-white/95 dark:bg-surface-dark/95 backdrop-blur-xl p-4 rounded-3xl shadow-2xl border border-black/5 flex gap-4">
-               <img src={activeBook.photos[0]} className="size-20 rounded-xl object-cover shadow-md" alt="" />
-               <div className="flex-1 min-w-0 flex flex-col justify-center">
-                  <h3 className="font-bold text-sm truncate dark:text-white">{activeBook.title}</h3>
-                  <p className="text-xs text-text-muted truncate mb-2">{activeBook.author}</p>
-                  <Link to={`/livro/${activeBook.id}`} className="bg-primary text-black text-center py-2 rounded-xl text-xs font-bold">Ver Detalhes</Link>
-               </div>
-            </div>
-          )}
-        </div>
+        </section>
       </div>
     </Layout>
   );

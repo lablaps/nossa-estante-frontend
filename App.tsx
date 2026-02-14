@@ -4,6 +4,7 @@ import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import Onboarding from './pages/Onboarding';
 import Login from './pages/Login';
 import Home from './pages/Home';
+import Explore from './pages/Explore';
 import MyShelf from './pages/MyShelf';
 import AddBook from './pages/AddBook';
 import BookDetails from './pages/BookDetails';
@@ -30,10 +31,11 @@ const PrivateRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => 
 const App: React.FC = () => {
   return (
     <Routes>
-      <Route path="/" element={<Onboarding />} />
+      <Route path="/" element={<PrivateRoute><Navigate to="/home" replace /></PrivateRoute>} />
+      <Route path="/intro" element={<Onboarding />} />
       <Route path="/login" element={<Login />} />
       <Route path="/home" element={<PrivateRoute><Home /></PrivateRoute>} />
-      <Route path="/explore" element={<PrivateRoute><Home /></PrivateRoute>} />
+      <Route path="/explore" element={<PrivateRoute><Explore /></PrivateRoute>} />
       <Route path="/minha-estante" element={<PrivateRoute><MyShelf /></PrivateRoute>} />
       <Route path="/cadastrar-livro" element={<PrivateRoute><AddBook /></PrivateRoute>} />
       <Route path="/livro/:id" element={<PrivateRoute><BookDetails /></PrivateRoute>} />

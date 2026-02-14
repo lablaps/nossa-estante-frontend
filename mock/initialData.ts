@@ -32,9 +32,9 @@ export const INITIAL_BOOKS: Book[] = [
     status: 'Available',
     condition: 'Very Good',
     creditsCost: 2,
-    locationApprox: 'Lisboa, PT',
+    locationApprox: 'UEMA, São Luís',
     distance: '0.5km',
-    photos: ['https://picsum.photos/seed/alchemist/400/600'],
+    photos: ['https://covers.openlibrary.org/b/isbn/9780062315007-L.jpg'],
     synopsis: 'Uma fábula sobre seguir seus sonhos.'
   },
   {
@@ -48,9 +48,9 @@ export const INITIAL_BOOKS: Book[] = [
     status: 'In Exchange',
     condition: 'Good',
     creditsCost: 3,
-    locationApprox: 'Lisboa, PT',
+    locationApprox: 'UEMA, São Luís',
     distance: '1.2km',
-    photos: ['https://picsum.photos/seed/sapiens/400/600'],
+    photos: ['https://covers.openlibrary.org/b/isbn/9780062316097-L.jpg'],
     synopsis: 'Uma breve história da humanidade.'
   },
   {
@@ -64,10 +64,43 @@ export const INITIAL_BOOKS: Book[] = [
     status: 'Available',
     condition: 'New',
     creditsCost: 2,
-    locationApprox: 'Lisboa, PT',
+    locationApprox: 'UEMA, São Luís',
     distance: '2.0km',
-    photos: ['https://picsum.photos/seed/habits/400/600'],
+    photos: ['https://covers.openlibrary.org/b/isbn/9780735211292-L.jpg'],
     synopsis: 'Um método fácil e comprovado de criar bons hábitos.'
+  },
+  // Books for user_1 (Sara)
+  {
+    id: 'book_4',
+    title: '1984',
+    author: 'George Orwell',
+    isbn: '978-0451524935',
+    category: 'Ficção',
+    language: 'Português',
+    ownerId: 'user_1',
+    status: 'Available',
+    condition: 'Good',
+    creditsCost: 1,
+    locationApprox: 'UEMA, São Luís',
+    distance: '0km',
+    photos: ['https://covers.openlibrary.org/b/isbn/9780451524935-L.jpg'],
+    synopsis: 'Um romance distópico clássico.'
+  },
+  {
+    id: 'book_5',
+    title: 'O Pequeno Príncipe',
+    author: 'Antoine de Saint-Exupéry',
+    isbn: '978-0156012195',
+    category: 'Infantil',
+    language: 'Português',
+    ownerId: 'user_1',
+    status: 'In Exchange',
+    condition: 'New',
+    creditsCost: 2,
+    locationApprox: 'UEMA, São Luís',
+    distance: '0km',
+    photos: ['https://covers.openlibrary.org/b/isbn/9780156012195-L.jpg'],
+    synopsis: 'Um clássico da literatura infantil.'
   }
 ];
 
@@ -90,5 +123,41 @@ export const INITIAL_TRANSACTIONS: Transaction[] = [
   }
 ];
 
-export const INITIAL_TRADES: Trade[] = [];
-export const INITIAL_CHATS: Chat[] = [];
+export const INITIAL_TRADES: Trade[] = [
+  {
+    id: 'trade_1',
+    bookId: 'book_5',
+    fromUserId: 'user_1',
+    toUserId: 'user_2',
+    status: 'ongoing',
+    meetingPoint: 'Livraria Lello, Porto',
+    qrCodeFake: 'qrcode_123'
+  }
+];
+
+export const INITIAL_CHATS: Chat[] = [
+  {
+    tradeId: 'trade_1',
+    participants: ['user_1', 'user_2'],
+    messages: [
+      {
+        id: 'msg_1',
+        fromUserId: 'user_2',
+        text: 'Olá Sara, tenho interesse no Pequeno Príncipe!',
+        date: '10:00'
+      },
+      {
+        id: 'msg_2',
+        fromUserId: 'user_1',
+        text: 'Oi Maria! Claro, está disponível.',
+        date: '10:05'
+      },
+      {
+        id: 'msg_3',
+        fromUserId: 'user_2',
+        text: 'Podemos nos encontrar na Livraria Lello?',
+        date: '10:10'
+      }
+    ]
+  }
+];

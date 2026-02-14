@@ -7,25 +7,25 @@ const STEPS = [
   {
     title: "Descubra livros perto de você",
     description: "Encontre livros disponíveis para troca ao seu redor usando o mapa.",
-    image: "https://picsum.photos/seed/map1/400/500",
+    image: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&q=80&w=600",
     color: "bg-primary"
   },
   {
     title: "Escaneie e registre livros",
     description: "Use sua câmera para escanear o código ISBN e adicionar livros em segundos.",
-    image: "https://picsum.photos/seed/scan1/400/500",
+    image: "https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?auto=format&fit=crop&q=80&w=600",
     color: "bg-blue-400"
   },
   {
     title: "Troque com confiança",
     description: "Converse com usuários e organize trocas seguras em zonas verificadas.",
-    image: "https://picsum.photos/seed/exchange1/400/500",
+    image: "https://images.unsplash.com/photo-1577985051167-0d49eec21977?auto=format&fit=crop&q=80&w=600",
     color: "bg-purple-400"
   },
   {
     title: "Ganhe créditos trocando",
     description: "Troque livros que você já leu para ganhar créditos e descobrir sua próxima história favorita.",
-    image: "https://picsum.photos/seed/credits1/400/500",
+    image: "https://images.unsplash.com/photo-1535905557558-afc4877a26fc?auto=format&fit=crop&q=80&w=600",
     color: "bg-emerald-400"
   }
 ];
@@ -47,7 +47,7 @@ const Onboarding: React.FC = () => {
   return (
     <div className="h-screen bg-background-light dark:bg-background-dark flex flex-col overflow-hidden">
       <ReferenceButtons pngUrl="https://picsum.photos/400/800" />
-      
+
       <div className="flex px-6 pt-12 pb-2 justify-end">
         <button onClick={handleSkip} className="text-text-muted font-bold text-sm">Pular</button>
       </div>
@@ -72,14 +72,14 @@ const Onboarding: React.FC = () => {
         <div className="flex items-center justify-between">
           <div className="flex gap-2">
             {STEPS.map((_, i) => (
-              <div 
-                key={i} 
+              <div
+                key={i}
                 className={`h-2.5 rounded-full transition-all duration-300 ${i === step ? 'w-8 bg-primary shadow-lg shadow-primary/40' : 'w-2.5 bg-gray-300 dark:bg-white/20'}`}
               />
             ))}
           </div>
 
-          <button 
+          <button
             onClick={handleNext}
             className="h-14 w-14 rounded-full bg-primary text-background-dark flex items-center justify-center shadow-lg shadow-primary/30 transition-transform active:scale-95"
           >

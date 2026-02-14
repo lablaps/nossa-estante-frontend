@@ -38,12 +38,12 @@ const Wallet: React.FC = () => {
                   </h2>
                 </div>
               </div>
-              
+
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-10 border-t border-white/10">
                 {[
                   { l: 'Último Ganho', v: '+2', color: 'text-primary' },
                   { l: 'Trocas Pendentes', v: '03', color: 'text-white' },
-                  { l: 'CO2 Salvo', v: '4.2kg', color: 'text-primary' },
+                  // { l: 'CO2 Salvo', v: '4.2kg', color: 'text-primary' }, // Removed
                   { l: 'Ranking Global', v: '#142', color: 'text-white' },
                 ].map((stat, i) => (
                   <div key={i} className="space-y-1">
@@ -57,23 +57,23 @@ const Wallet: React.FC = () => {
 
           <div className="bg-white dark:bg-surface-dark rounded-[40px] p-10 border border-black/5 shadow-xl space-y-8">
             <div className="flex items-center gap-6">
-               <img src={user?.avatar} className="size-20 rounded-[30px] object-cover border-4 border-[#F8FAF9] dark:border-background-dark shadow-xl" alt="" />
-               <div>
-                 <h3 className="text-xl font-black dark:text-white">{user?.name}</h3>
-                 <p className="text-xs text-text-muted font-bold">Membro Verificado</p>
-               </div>
+              <img src={user?.avatar} className="size-20 rounded-[30px] object-cover border-4 border-[#F8FAF9] dark:border-background-dark shadow-xl" alt="" />
+              <div>
+                <h3 className="text-xl font-black dark:text-white">{user?.name}</h3>
+                <p className="text-xs text-text-muted font-bold">Membro Verificado</p>
+              </div>
             </div>
 
             <div className="space-y-4 pt-4 border-t border-black/5">
-               <div className="flex justify-between items-end">
-                 <div>
-                   <p className="text-[10px] font-black text-text-muted uppercase tracking-widest mb-1">Pontuação de Reputação</p>
-                   <p className="text-4xl font-black dark:text-white">{user?.reputation}</p>
-                 </div>
-               </div>
-               <div className="w-full h-3 bg-black/5 rounded-full overflow-hidden">
-                 <div className="h-full bg-primary rounded-full w-[96%]"></div>
-               </div>
+              <div className="flex justify-between items-end">
+                <div>
+                  <p className="text-[10px] font-black text-text-muted uppercase tracking-widest mb-1">Pontuação de Reputação</p>
+                  <p className="text-4xl font-black dark:text-white">{user?.reputation}</p>
+                </div>
+              </div>
+              <div className="w-full h-3 bg-black/5 rounded-full overflow-hidden">
+                <div className="h-full bg-primary rounded-full w-[96%]"></div>
+              </div>
             </div>
           </div>
         </div>
@@ -81,7 +81,7 @@ const Wallet: React.FC = () => {
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
           <div className="xl:col-span-2 bg-white dark:bg-surface-dark rounded-[40px] border border-black/5 shadow-sm overflow-hidden flex flex-col">
             <div className="p-8 border-b border-black/5 flex items-center justify-between">
-               <h3 className="font-black text-xl dark:text-white tracking-tight">Histórico de Transações</h3>
+              <h3 className="font-black text-xl dark:text-white tracking-tight">Histórico de Transações</h3>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-left">
@@ -96,9 +96,9 @@ const Wallet: React.FC = () => {
                   {transactions.map(tx => (
                     <tr key={tx.id} className="hover:bg-black/5 transition-colors">
                       <td className="px-8 py-6 font-bold text-sm dark:text-white">
-                         <div className="flex items-center gap-4">
-                           {tx.description}
-                         </div>
+                        <div className="flex items-center gap-4">
+                          {tx.description}
+                        </div>
                       </td>
                       <td className="px-8 py-6 text-xs text-text-muted font-bold">{tx.date}</td>
                       <td className={`px-8 py-6 text-sm font-black text-right ${tx.type === 'earn' ? 'text-primary' : 'text-red-500'}`}>
@@ -113,9 +113,9 @@ const Wallet: React.FC = () => {
 
           <div className="space-y-8">
             <div className="bg-primary/5 dark:bg-white/5 rounded-[40px] p-8 border border-primary/20 space-y-4">
-               <h4 className="font-black dark:text-white text-xl">Dica de Usuário</h4>
-               <p className="text-sm text-text-muted leading-relaxed">Usuários que trocam pelo menos <span className="font-bold text-text-main dark:text-white">3 livros por mês</span> ganham o selo de "Curador" e prioridade em novos lançamentos!</p>
-               <button className="text-primary font-bold text-sm hover:underline">Saiba mais sobre níveis →</button>
+              <h4 className="font-black dark:text-white text-xl">Dica de Usuário</h4>
+              <p className="text-sm text-text-muted leading-relaxed">Usuários que trocam pelo menos <span className="font-bold text-text-main dark:text-white">3 livros por mês</span> ganham o selo de "Curador" e prioridade em novos lançamentos!</p>
+              <button className="text-primary font-bold text-sm hover:underline">Saiba mais sobre níveis →</button>
             </div>
           </div>
         </div>
